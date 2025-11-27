@@ -5,6 +5,7 @@ add_executable(
         main_test.cpp
         sigma_algebra_tests.cpp
         test_suites/ProjectIntegrationTestSuite.cpp
+        distributions_tests.cpp
 )
 
 target_link_libraries(
