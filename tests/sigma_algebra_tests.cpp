@@ -20,7 +20,7 @@ TEST(SigmaAlgebraTest, ProbabilityMeasureAndExpectation) {
   P.SetAtomicProbability(w1, 0.3);
   P.SetAtomicProbability(w2, 0.5);
 
-  EXPECT_TRUE(P.IsValid());
+  EXPECT_TRUE(P.IsValid(1e-9));
 
   // событие A = {1,3}
   std::vector<bool> mask(omega.GetSize(), false);

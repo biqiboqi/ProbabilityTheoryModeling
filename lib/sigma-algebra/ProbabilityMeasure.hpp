@@ -16,7 +16,7 @@ public:
   void SetAtomicProbability(OutcomeSpace::OutcomeId id, double p);
   [[nodiscard]] double GetAtomicProbability(OutcomeSpace::OutcomeId id) const;
 
-  [[nodiscard]] bool IsValid(double eps = 1e-9) const;
+  [[nodiscard]] bool IsValid(double eps) const;
 
   [[nodiscard]] double Probability(const Event& event) const;
 
