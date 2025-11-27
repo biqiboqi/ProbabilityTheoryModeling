@@ -1,56 +1,107 @@
-# C++ project template with Google Tests and CI/CD
+# ProbabilityTheoryModeling
+## Сборка и тесты
 
-This is a project template. Feel free to use & fork it. It contains all pre-configured 
-CMakeLists.txt, so to use it, replace project name with your one in 
-[main CmakeLists.txt](CMakeLists.txt), and all target and executable names in 
-[CI/CD script](./.github/workflows/ci_tests.yml). Sample program prints a greeting for the first argument.
-
-## How to build and run
-
-Run the following commands from the project directory.
-
-1. Create CMake cache
-
-```shell
-cmake -S . -B cmake-build
+```bash
+mkdir -p cmake-build-debug
+cd cmake-build-debug
+cmake ..
+cmake --build .
+ctest          # или ./bin/cpp_tests
 ```
 
-2. Build executable target
+---
 
-```shell
-cmake --build cmake-build --target cpp_tests
-```
+## Задание 1. Конечное вероятностное пространство и σ-алгебра
 
-3. Build tests target
 
-```shell
-cmake --build cmake-build --target cpp_tests_tests
-```
+* Реализовать конечное пространство исходов `OutcomeSpace`.
+* Реализовать класс `Event` (событие как подмножество Ω).
+* Реализовать `ProbabilityMeasure`, задающую вероятности атомов и событий.
+* Реализовать дискретную случайную величину `DiscreteRandomVariable` и вычисление ее математического ожидания.
+* Опционально: проверить, что набор событий образует σ-алгебру.
 
-4. Run executable target
+Ожидается, что можно:
 
-* On Windows:
+* Создать Ω (например, исходы броска кубика).
+* Задать события (чётные числа и т.п.).
+* Посчитать их вероятности и E[X] для простой X.
 
-```shell
-.\cmake-build\cpp_tests.exe World
-```
+---
 
-* On *nix:
+## Задание 2. Распределения и моделирование
 
-```shell
-./cmake-build/bin/cpp_tests World
-```
+* Есть базовый интерфейс `Distribution` с методами:
 
-5. Run tests
+    * `Pdf(x)` / `Cdf(x)`
+    * `Sample(rng)`
+    * теоретические `Mean`, `Cariance`
+* Реализовать/использовать распределения:
 
-* On Windows:
+    * Бернулли, биномиальное, геометрическое, Пуассон
+    * Нормальное, равномерное, экспоненциальное
+    * Коши, Лапласа (или другое «интересное» распределение)
+* Класс `DistributionExperiment`:
 
-```shell
-.\cmake-build\cpp_tests_tests.exe
-```
+    * сэмплирует N значений,
+    * считает выборочные среднее и дисперсию,
+    * сравнивает с теорией,
+    * может строить эмпирическую CDF и считать расстояние Колмогорова.
 
-* On *nix:
+Ожидается, что можно:
 
-```shell
-./cmake-build/tests/cpp_tests_tests
-```
+* Для каждого распределения провести эксперимент.
+* Убедиться, что выборочные характеристики приближаются к теоретическим.
+
+---
+
+## Задание 3. Закон больших чисел
+
+* Класс `LawOfLargeNumbersSimulator`:
+
+    * принимает `std::shared_ptr<Distribution>`,
+    * моделирует одну траекторию выборочного среднего
+      $\overline{X}_n = (X_1 + \dots + X_n)/n$ при $n = \text{step}, 2\text{step}, \dots$,
+    * возвращает вектор записей `(n, sample_mean, |sample_mean - theoretical_mean|)`.
+
+Ожидается, что можно:
+
+* Для разных распределений (Ber, Uniform, Exp, Laplace) показать численно, что
+  $|\overline{X}_n - \mu|$ уменьшается при росте `n`.
+* Обсудить поведение для распределения, у которого матожидание не определено (Коши).
+
+---
+
+## Задание 4. Цепи Маркова и генерация текста
+
+* Класс `MarkovChain`:
+
+    * состояния - строки (`std::string`),
+    * инкрементальное обучение по последовательностям состояний,
+    * хранение счётчиков переходов и оценка `P(next | current)`,
+    * генерация цепочки заданной длины.
+* Класс `MarkovTextModel`:
+
+    * два режима токенизации: `Character` (символы) и `Word` (слова),
+    * `trainFromText(text)` - токенизировать и обучить цепь Маркова,
+    * `generateText(num_tokens, rng, start_token)` - сгенерировать текст.
+* Интеграционный тест:
+
+    * обучить word-level модель на «Войне и мире»,
+    * проверить размер словаря,
+    * убедиться, что типичные слова попали в модель,
+    * проверить, что генерация текста работает.
+
+Ожидается, что можно:
+
+* Обучить Markov-модель на большом корпусе.
+* Генерировать текст в стиле корпуса.
+* Сравнить word- и char-модели.
+
+---
+
+Краткое резюме:
+
+* Задание 1: моделируем конечное Ω, события и вероятности.
+* Задание 2: реализуем и исследуем разные распределения.
+* Задание 3: показываем закон больших чисел на численных экспериментах.
+* Задание 4: строим цепь Маркова и генерируем текст (в т.ч. по «Войне и миру»).

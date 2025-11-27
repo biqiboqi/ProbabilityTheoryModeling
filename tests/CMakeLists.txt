@@ -8,7 +8,6 @@ add_executable(
         distributions_tests.cpp
         markov_chain_tests.cpp
         law_of_large_numbers_tests.cpp
-        law_of_large_numbers_tests.h
 )
 
 target_link_libraries(
