@@ -23,7 +23,7 @@ public:
   // 1) генерируем X_1, ..., X_max_n
   // 2) считаем префиксные суммы и выборочные средние
   // 3) для n кратных step сохраняем (n, mean_n, |mean_n - mu|)
-  LLNPathResult Simulate(std::mt19937& rng, size_t max_n, size_t step) const;
+  LLNPathResult Simulate(std::mt19937& rng, std::size_t max_n, std::size_t step) const;
 
   // Доступ к распределению
   [[nodiscard]] std::shared_ptr<Distribution> GetDistribution() const noexcept;

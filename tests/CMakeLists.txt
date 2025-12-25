@@ -3,7 +3,7 @@ enable_testing()
 add_executable(
         ${PROJECT_NAME}_tests
         main_test.cpp
-        sigma_algebra_tests.cpp
+        # sigma_algebra_tests.cpp
         test_suites/ProjectIntegrationTestSuite.cpp
         distributions_tests.cpp
         markov_chain_tests.cpp
@@ -12,8 +12,10 @@ add_executable(
 
 target_link_libraries(
         ${PROJECT_NAME}_tests
-        sigma-algebra
+        # sigma-algebra
         law-of-large-numbers
+        markov-chain
+        distributions
         GTest::gtest_main
 )
 

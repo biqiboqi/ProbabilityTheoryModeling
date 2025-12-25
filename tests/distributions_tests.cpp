@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <cmath>
+#include <numbers>
 
 #include "lib/distributions/BernoulliDistribution.hpp"
 #include "lib/distributions/BinomialDistribution.hpp"
