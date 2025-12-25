@@ -10,3 +10,5 @@ add_library(distributions STATIC
         PoissonDistribution.cpp
         DistributionExperiment.cpp
 )
+
+target_include_directories(distributions PUBLIC ${PROJECT_SOURCE_DIR}/lib)

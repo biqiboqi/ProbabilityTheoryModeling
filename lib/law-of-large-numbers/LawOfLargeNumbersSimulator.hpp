@@ -5,7 +5,7 @@
 #include <random>
 
 #include "LLNPathResult.hpp"
-#include "lib/distributions/Distribution.hpp"
+#include "distributions/Distribution.hpp"
 
 namespace ptm {
 class Distribution;

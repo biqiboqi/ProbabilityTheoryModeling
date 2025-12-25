@@ -72,8 +72,8 @@ TEST(MarkovTextModelTest, CharacterLevelGeneration) {
 TEST(MarkovTextModelTest, TrainOnWarAndPeaceWordLevel) {
   using namespace ptm;
 
-  std::ifstream in("tests/data/war_and_peace.txt");
-  ASSERT_TRUE(in.good()) << "Не удалось открыть файл tests/data/war_and_peace_ru.txt";
+  std::ifstream in("../../tests/war_and_peace.txt");
+  ASSERT_TRUE(in.good()) << "Не удалось открыть файл ../../tests/war_and_peace.txt";
 
   std::stringstream buffer;
   buffer << in.rdbuf();
@@ -90,13 +90,13 @@ TEST(MarkovTextModelTest, TrainOnWarAndPeaceWordLevel) {
 
   auto has_token = [&](const std::string& token) { return std::ranges::find(states, token) != states.end(); };
 
-  EXPECT_TRUE(has_token("и")) << "Слово \"и\" не найдено в словаре";
-  EXPECT_TRUE(has_token("в")) << "Слово \"в\" не найдено в словаре";
-  EXPECT_TRUE(has_token("на")) << "Слово \"на\" не найдено в словаре";
+  EXPECT_TRUE(has_token("and")) << "Слово \"and\" не найдено в словаре";
+  EXPECT_TRUE(has_token("in")) << "Слово \"in\" не найдено в словаре";
+  EXPECT_TRUE(has_token("on")) << "Слово \"on\" не найдено в словаре";
 
   std::mt19937 rng(123);
 
-  std::string generated = model.GenerateText(50, rng, "и");
+  std::string generated = model.GenerateText(50, rng, "and");
   EXPECT_FALSE(generated.empty()) << "Сгенерированный текст пустой";
 
   std::size_t space_count = std::ranges::count(generated, ' ');
