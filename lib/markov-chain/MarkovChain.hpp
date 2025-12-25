@@ -34,6 +34,9 @@ public:
   // Все известные состояния
   std::vector<State> States() const;
 
+  // Знает ли цепь об этом состоянии
+  bool HasState(const State& state) const;
+
 private:
   // отображение state -> index
   std::unordered_map<State, size_t> state_to_index_;
