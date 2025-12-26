@@ -6,12 +6,12 @@
 #include "lib/distributions/BinomialDistribution.hpp"
 #include "lib/distributions/CauchyDistribution.hpp"
 #include "lib/distributions/DistributionExperiment.hpp"
+#include "lib/distributions/ExponentialDistribution.hpp"
 #include "lib/distributions/GeometricDistribution.hpp"
 #include "lib/distributions/LaplaceDistribution.hpp"
 #include "lib/distributions/NormalDistribution.hpp"
 #include "lib/distributions/PoissonDistribution.hpp"
 #include "lib/distributions/UniformDistribution.hpp"
-#include "lib/distributions/ExponentialDistribution.hpp"
 
 TEST(DistributionTest, NormalDistributionBasicProperties) {
   using namespace ptm;
@@ -134,114 +134,113 @@ TEST(DistributionExperimentTest, BinomialEmpiricalMean) {
   EXPECT_NEAR(stats.empirical_variance, dist->TheoreticalVariance(), 0.5);
 }
 
-
 using namespace ptm;
 
-static std::mt19937 g_rng(42); 
+static std::mt19937 g_rng(42);
 
 TEST(DistributionTest, BernoulliBasic) {
-    BernoulliDistribution dist(0.4);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.4);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 0.4 * 0.6);
-    EXPECT_DOUBLE_EQ(dist.Pdf(1.0), 0.4);
-    EXPECT_DOUBLE_EQ(dist.Pdf(0.0), 0.6);
-    EXPECT_DOUBLE_EQ(dist.Cdf(0.5), 0.6);
+  BernoulliDistribution dist(0.4);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.4);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 0.4 * 0.6);
+  EXPECT_DOUBLE_EQ(dist.Pdf(1.0), 0.4);
+  EXPECT_DOUBLE_EQ(dist.Pdf(0.0), 0.6);
+  EXPECT_DOUBLE_EQ(dist.Cdf(0.5), 0.6);
 }
 
 TEST(DistributionTest, BinomialBasic) {
-    BinomialDistribution dist(10, 0.5);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 5.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.5);
+  BinomialDistribution dist(10, 0.5);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 5.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.5);
 
-    EXPECT_NEAR(dist.Pdf(0), std::pow(0.5, 10), 1e-7);
-    EXPECT_DOUBLE_EQ(dist.Cdf(-1), 0.0);
-    EXPECT_DOUBLE_EQ(dist.Cdf(11), 1.0);
+  EXPECT_NEAR(dist.Pdf(0), std::pow(0.5, 10), 1e-7);
+  EXPECT_DOUBLE_EQ(dist.Cdf(-1), 0.0);
+  EXPECT_DOUBLE_EQ(dist.Cdf(11), 1.0);
 }
 
 TEST(DistributionTest, GeometricBasic) {
-    GeometricDistribution dist(0.5);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 2.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.0);
+  GeometricDistribution dist(0.5);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 2.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.0);
 
-    EXPECT_DOUBLE_EQ(dist.Pdf(1), 0.5);
-    EXPECT_DOUBLE_EQ(dist.Pdf(2), 0.25);
-    EXPECT_DOUBLE_EQ(dist.Cdf(2), 0.75);
+  EXPECT_DOUBLE_EQ(dist.Pdf(1), 0.5);
+  EXPECT_DOUBLE_EQ(dist.Pdf(2), 0.25);
+  EXPECT_DOUBLE_EQ(dist.Cdf(2), 0.75);
 }
 
 TEST(DistributionTest, NormalBasic) {
-    NormalDistribution dist(10.0, 2.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 10.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 4.0);
+  NormalDistribution dist(10.0, 2.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 10.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 4.0);
 
-    EXPECT_NEAR(dist.Pdf(10.0), 1.0 / (2.0 * std::sqrt(2.0 * M_PI)), 1e-7);
-    EXPECT_NEAR(dist.Cdf(10.0), 0.5, 1e-7);
+  EXPECT_NEAR(dist.Pdf(10.0), 1.0 / (2.0 * std::sqrt(2.0 * M_PI)), 1e-7);
+  EXPECT_NEAR(dist.Cdf(10.0), 0.5, 1e-7);
 }
 
 TEST(DistributionTest, UniformBasic) {
-    UniformDistribution dist(0.0, 10.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 5.0);
-    EXPECT_NEAR(dist.TheoreticalVariance(), 100.0 / 12.0, 1e-7);
-    EXPECT_DOUBLE_EQ(dist.Pdf(5.0), 0.1);
-    EXPECT_DOUBLE_EQ(dist.Pdf(15.0), 0.0);
-    EXPECT_DOUBLE_EQ(dist.Cdf(2.0), 0.2);
+  UniformDistribution dist(0.0, 10.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 5.0);
+  EXPECT_NEAR(dist.TheoreticalVariance(), 100.0 / 12.0, 1e-7);
+  EXPECT_DOUBLE_EQ(dist.Pdf(5.0), 0.1);
+  EXPECT_DOUBLE_EQ(dist.Pdf(15.0), 0.0);
+  EXPECT_DOUBLE_EQ(dist.Cdf(2.0), 0.2);
 }
 
 TEST(DistributionTest, ExponentialBasic) {
-    ExponentialDistribution dist(2.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.5);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 0.25);
-    EXPECT_NEAR(dist.Pdf(0.0), 2.0, 1e-7);
-    EXPECT_NEAR(dist.Cdf(0.5), 1.0 - std::exp(-1.0), 1e-7);
+  ExponentialDistribution dist(2.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.5);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 0.25);
+  EXPECT_NEAR(dist.Pdf(0.0), 2.0, 1e-7);
+  EXPECT_NEAR(dist.Cdf(0.5), 1.0 - std::exp(-1.0), 1e-7);
 }
 
 TEST(DistributionTest, LaplaceBasic) {
-    LaplaceDistribution dist(0.0, 1.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.0);
-    EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.0);
-    EXPECT_DOUBLE_EQ(dist.Pdf(0.0), 0.5);
-    EXPECT_DOUBLE_EQ(dist.Cdf(0.0), 0.5);
+  LaplaceDistribution dist(0.0, 1.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 0.0);
+  EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 2.0);
+  EXPECT_DOUBLE_EQ(dist.Pdf(0.0), 0.5);
+  EXPECT_DOUBLE_EQ(dist.Cdf(0.0), 0.5);
 }
 
 TEST(DistributionTest, CauchyMoments) {
-    CauchyDistribution dist(0.0, 1.0);
-    EXPECT_TRUE(std::isnan(dist.TheoreticalMean()));
-    EXPECT_TRUE(std::isnan(dist.TheoreticalVariance()));
-    EXPECT_NEAR(dist.Cdf(0.0), 0.5, 1e-7);
+  CauchyDistribution dist(0.0, 1.0);
+  EXPECT_TRUE(std::isnan(dist.TheoreticalMean()));
+  EXPECT_TRUE(std::isnan(dist.TheoreticalVariance()));
+  EXPECT_NEAR(dist.Cdf(0.0), 0.5, 1e-7);
 }
 
 TEST(DistributionExperimentTest, RunAndStats) {
-    auto dist = std::make_shared<NormalDistribution>(0.0, 1.0);
-    size_t N = 10000;
-    DistributionExperiment exp(dist, N);
-    
-    ExperimentStats stats = exp.Run(g_rng);
-    
-    EXPECT_NEAR(stats.empirical_mean, 0.0, 0.05);
-    EXPECT_NEAR(stats.empirical_variance, 1.0, 0.05);
-    EXPECT_GT(stats.mean_error, 0.0);
+  auto dist = std::make_shared<NormalDistribution>(0.0, 1.0);
+  size_t N = 10000;
+  DistributionExperiment exp(dist, N);
+
+  ExperimentStats stats = exp.Run(g_rng);
+
+  EXPECT_NEAR(stats.empirical_mean, 0.0, 0.05);
+  EXPECT_NEAR(stats.empirical_variance, 1.0, 0.05);
+  EXPECT_GT(stats.mean_error, 0.0);
 }
 
 TEST(DistributionExperimentTest, KolmogorovAndEcdf) {
-    auto dist = std::make_shared<UniformDistribution>(0.0, 1.0);
-    size_t N = 1000;
-    DistributionExperiment exp(dist, N);
+  auto dist = std::make_shared<UniformDistribution>(0.0, 1.0);
+  size_t N = 1000;
+  DistributionExperiment exp(dist, N);
 
-    std::vector<double> grid = {0.1, 0.5, 0.9};
-    auto ecdf = exp.EmpiricalCdf(grid, g_rng, N);
-    
-    ASSERT_EQ(ecdf.size(), grid.size());
-    EXPECT_NEAR(ecdf[1], 0.5, 0.1);
+  std::vector<double> grid = {0.1, 0.5, 0.9};
+  auto ecdf = exp.EmpiricalCdf(grid, g_rng, N);
 
-    double ks_dist = exp.KolmogorovDistance(grid, ecdf);
-    EXPECT_LT(ks_dist, 0.1);
-    EXPECT_GE(ks_dist, 0.0);
+  ASSERT_EQ(ecdf.size(), grid.size());
+  EXPECT_NEAR(ecdf[1], 0.5, 0.1);
+
+  double ks_dist = exp.KolmogorovDistance(grid, ecdf);
+  EXPECT_LT(ks_dist, 0.1);
+  EXPECT_GE(ks_dist, 0.0);
 }
 
 TEST(DistributionExperimentTest, CauchySimulation) {
-    auto dist = std::make_shared<CauchyDistribution>(0.0, 1.0);
-    DistributionExperiment exp(dist, 1000);
-    
-    ExperimentStats stats = exp.Run(g_rng);
-    EXPECT_TRUE(std::isnan(dist->TheoreticalMean()));
-    EXPECT_FALSE(std::isnan(stats.empirical_mean));
+  auto dist = std::make_shared<CauchyDistribution>(0.0, 1.0);
+  DistributionExperiment exp(dist, 1000);
+
+  ExperimentStats stats = exp.Run(g_rng);
+  EXPECT_TRUE(std::isnan(dist->TheoreticalMean()));
+  EXPECT_FALSE(std::isnan(stats.empirical_mean));
 }

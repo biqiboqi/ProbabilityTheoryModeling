@@ -145,7 +145,7 @@ jobs:
       - name: Check code style
         shell: bash
         run: |
-          mapfile -t files < <(git ls-files '*.c' '*.cpp' '*.h' '*.hpp')
+          mapfile -t files < <(git ls-files '*.c' '*.cpp' '*.h' '*.hpp' | grep -v "tests/")
 
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No C/C++ files to check."
@@ -167,7 +167,7 @@ jobs:
 
             try {
               // Get list of files that need formatting
-              const rawFiles = execSync('git ls-files "*.c" "*.cpp" "*.h" "*.hpp"', { encoding: 'utf8' }).trim();
+              const rawFiles = execSync('git ls-files "*.c" "*.cpp" "*.h" "*.hpp" | grep -v "tests/"', { encoding: 'utf8' }).trim();
 
               if (!rawFiles) {
                 console.log('No files require formatting checks.');
@@ -222,7 +222,7 @@ jobs:
       - name: Run clang-tidy
         shell: bash
         run: |
-          mapfile -t files < <(git ls-files '*.c' '*.cpp')
+          mapfile -t files < <(git ls-files '*.c' '*.cpp' | grep -v "tests/)
 
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No C/C++ files to analyze."

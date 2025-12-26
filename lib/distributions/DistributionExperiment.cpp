@@ -19,13 +19,13 @@ ExperimentStats DistributionExperiment::Run(std::mt19937& rng) {
     sum += s;
   }
 
-  double emp_mean = sum / sample_size_;
+  double emp_mean = sum / (double) sample_size_;
 
   double var_sum = 0.0;
   for (double s : samples) {
     var_sum += std::pow(s - emp_mean, 2);
   }
-  double emp_var = var_sum / (sample_size_ - 1);
+  double emp_var = var_sum / (double) (sample_size_ - 1);
 
   ExperimentStats stats;
   stats.empirical_mean = emp_mean;
@@ -56,8 +56,8 @@ std::vector<double> DistributionExperiment::EmpiricalCdf(const std::vector<doubl
 
   for (double x : grid) {
     auto it = std::upper_bound(samples.begin(), samples.end(), x);
-    double count = std::distance(samples.begin(), it);
-    ecdf.push_back(count / sample_size);
+    auto count = (double) std::distance(samples.begin(), it);
+    ecdf.push_back(count / (double) sample_size);
   }
   return ecdf;
 }

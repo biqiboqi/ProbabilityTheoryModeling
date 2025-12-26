@@ -1,5 +1,5 @@
-#include "BernoulliDistribution.hpp"
 #include <cmath>
+#include "BernoulliDistribution.hpp"
 
 namespace ptm {
 

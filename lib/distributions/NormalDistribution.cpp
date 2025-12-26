@@ -1,5 +1,8 @@
-#include "NormalDistribution.hpp"
 #include <cmath>
+#include "NormalDistribution.hpp"
+
+constexpr double half = 0.5;
+constexpr double two = 2;
 
 namespace ptm {
 
@@ -7,13 +10,13 @@ NormalDistribution::NormalDistribution(double mean, double stddev) : mean_(mean)
 }
 
 double NormalDistribution::Pdf(double x) const {
-  static const double inv_sqrt_2pi = 1.0 / std::sqrt(2.0 * M_PI);
+  static const double inv_sqrt_2pi = 1.0 / std::sqrt(two * M_PI);
   double z = (x - mean_) / stddev_;
-  return (inv_sqrt_2pi / stddev_) * std::exp(-0.5 * z * z);
+  return (inv_sqrt_2pi / stddev_) * std::exp(-half * z * z);
 }
 
 double NormalDistribution::Cdf(double x) const {
-  return 0.5 * (1.0 + std::erf((x - mean_) / (stddev_ * std::numbers::sqrt2)));
+  return half * (1.0 + std::erf((x - mean_) / (stddev_ * std::sqrt(two))));
 }
 
 double NormalDistribution::Sample(std::mt19937& rng) const {

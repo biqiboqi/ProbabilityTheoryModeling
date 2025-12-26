@@ -1,5 +1,5 @@
-#include "GeometricDistribution.hpp"
 #include <cmath>
+#include "GeometricDistribution.hpp"
 
 constexpr double exponent = 1e-9;
 

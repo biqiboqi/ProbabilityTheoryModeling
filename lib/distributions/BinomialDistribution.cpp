@@ -1,5 +1,5 @@
-#include "BinomialDistribution.hpp"
 #include <cmath>
+#include "BinomialDistribution.hpp"
 
 constexpr double exponent = 1e-9;
 
@@ -28,7 +28,7 @@ double BinomialDistribution::Cdf(double x) const {
 }
 
 double BinomialDistribution::Sample(std::mt19937& rng) const {
-  std::binomial_distribution<int> dist(n_, p_);
+  std::binomial_distribution<int> dist((int) n_, p_);
   return static_cast<double>(dist(rng));
 }
 

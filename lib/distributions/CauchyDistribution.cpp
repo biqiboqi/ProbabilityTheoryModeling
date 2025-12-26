@@ -1,6 +1,6 @@
-#include "CauchyDistribution.hpp"
 #include <cmath>
 #include <limits>
+#include "CauchyDistribution.hpp"
 
 namespace ptm {
 
@@ -12,7 +12,8 @@ double CauchyDistribution::Pdf(double x) const {
 }
 
 double CauchyDistribution::Cdf(double x) const {
-  return std::atan((x - x0_) / gamma_) / M_PI + 0.5;
+  const double half = 0.5;
+  return std::atan((x - x0_) / gamma_) / M_PI + half;
 }
 
 double CauchyDistribution::Sample(std::mt19937& rng) const {

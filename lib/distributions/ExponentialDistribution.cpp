@@ -1,5 +1,5 @@
-#include "ExponentialDistribution.hpp"
 #include <cmath>
+#include "ExponentialDistribution.hpp"
 
 namespace ptm {
 

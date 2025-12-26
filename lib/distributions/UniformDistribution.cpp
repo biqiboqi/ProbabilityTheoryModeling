@@ -1,5 +1,8 @@
 #include "UniformDistribution.hpp"
 
+constexpr double two = 2;
+constexpr double twelve = 12;
+
 namespace ptm {
 
 UniformDistribution::UniformDistribution(double a, double b) : a_(a), b_(b) {
@@ -25,10 +28,11 @@ double UniformDistribution::Sample(std::mt19937& rng) const {
 }
 
 double UniformDistribution::TheoreticalMean() const {
-  return (a_ + b_) / 2.0;
-}
-double UniformDistribution::TheoreticalVariance() const {
-  return std::pow(b_ - a_, 2) / 12.0;
+  return (a_ + b_) / two;
 }
 
+double UniformDistribution::TheoreticalVariance() const {
+  return std::pow(b_ - a_, 2) / twelve;
 }
+
+} // namespace ptm
