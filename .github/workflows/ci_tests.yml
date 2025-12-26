@@ -222,7 +222,7 @@ jobs:
       - name: Run clang-tidy
         shell: bash
         run: |
-          mapfile -t files < <(git ls-files '*.c' '*.cpp' | grep -v "tests/)
+          mapfile -t files < <(git ls-files '*.c' '*.cpp' | grep -v "tests/")
 
           if [ "${#files[@]}" -eq 0 ]; then
             echo "No C/C++ files to analyze."
