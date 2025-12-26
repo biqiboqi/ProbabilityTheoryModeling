@@ -21,9 +21,9 @@ size_t MarkovChain::ensureState(const State& s) {
 
 void MarkovChain::Train(const std::vector<State>& sequence) {
   for (const auto& s : sequence) {
-     ensureState(s);
-   }
-   for (size_t i = 0; i + 1 < sequence.size(); ++i) {
+    ensureState(s);
+  }
+  for (size_t i = 0; i + 1 < sequence.size(); ++i) {
     size_t from_idx = ensureState(sequence[i]);
     size_t to_idx = ensureState(sequence[i + 1]);
     counts_[from_idx][to_idx]++;
