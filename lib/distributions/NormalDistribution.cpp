@@ -3,6 +3,7 @@
 
 constexpr double half = 0.5;
 constexpr double two = 2;
+constexpr double pi = 3.14159265358979323846;
 
 namespace ptm {
 
@@ -10,7 +11,7 @@ NormalDistribution::NormalDistribution(double mean, double stddev) : mean_(mean)
 }
 
 double NormalDistribution::Pdf(double x) const {
-  static const double inv_sqrt_2pi = 1.0 / std::sqrt(two * M_PI);
+  double inv_sqrt_2pi = 1.0 / std::sqrt(two * pi);
   double z = (x - mean_) / stddev_;
   return (inv_sqrt_2pi / stddev_) * std::exp(-half * z * z);
 }

@@ -107,7 +107,8 @@ TEST(DistributionTest, CauchyDistributionBasic) {
   using namespace ptm;
 
   CauchyDistribution cd(0.0, 1.0);
-  EXPECT_NEAR(cd.Pdf(0.0), 1.0 / (std::numbers::pi * 1.0), 1e-9);
+  double pi = 3.14159265358979323846;
+  EXPECT_NEAR(cd.Pdf(0.0), 1.0 / (pi * 1.0), 1e-9);
   EXPECT_NEAR(cd.Cdf(0.0), 0.5, 1e-9);
 }
 
