@@ -173,7 +173,8 @@ TEST(DistributionTest, NormalBasic) {
   EXPECT_DOUBLE_EQ(dist.TheoreticalMean(), 10.0);
   EXPECT_DOUBLE_EQ(dist.TheoreticalVariance(), 4.0);
 
-  EXPECT_NEAR(dist.Pdf(10.0), 1.0 / (2.0 * std::sqrt(2.0 * M_PI)), 1e-7);
+  double pi = 3.14159265358979323846;
+  EXPECT_NEAR(dist.Pdf(10.0), 1.0 / (2.0 * std::sqrt(2.0 * pi)), 1e-7);
   EXPECT_NEAR(dist.Cdf(10.0), 0.5, 1e-7);
 }
 
