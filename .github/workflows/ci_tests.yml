@@ -106,6 +106,7 @@ jobs:
             ./cpp_tests_tests.exe
           else
             cd tests
+            cd Debug
             ./cpp_tests_tests
           fi
 

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 project(
-        ci_tests.yml # Rename the project here and in ci_tests.yml
+        cpp_tests # Rename the project here and in ci_tests.yml
         VERSION 0.1
         DESCRIPTION "C++ Project with Google tests"
         LANGUAGES CXX
