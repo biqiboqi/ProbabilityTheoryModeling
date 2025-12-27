@@ -14,6 +14,7 @@ target_link_libraries(
         ${PROJECT_NAME}_tests
         sigma-algebra
         law-of-large-numbers
+        markov-chain
         GTest::gtest_main
 )
 

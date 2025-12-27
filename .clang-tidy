@@ -13,7 +13,7 @@ Checks: '-*,
   -bugprone-easily-swappable-parameters'
 
 WarningsAsErrors: ''
-HeaderFilterRegex: ''
+HeaderFilterRegex: '^(?!tests/).*$'
 FormatStyle: none
 CheckOptions:
   - key: modernize-use-using.IgnoreMacros

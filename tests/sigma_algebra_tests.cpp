@@ -62,4 +62,98 @@ TEST(SigmaAlgebraTest, EventOperations) {
   EXPECT_FALSE(E3.Contains(c));
 }
 
-// Add your tests...
+TEST(SigmaAlgebraTest, BasicAccessorsAndTrivialCase) {
+  using namespace ptm;
+
+  OutcomeSpace omega;
+  omega.AddOutcome("heads");
+  omega.AddOutcome("tails");
+  size_t n = omega.GetSize();
+
+  std::vector<Event> events = {Event::Empty(n), Event::Full(n)};
+
+  SigmaAlgebra sa(omega, events);
+
+  EXPECT_EQ(&sa.GetOutcomeSpace(), &omega);
+  EXPECT_EQ(sa.GetEvents().size(), 2);
+
+  EXPECT_TRUE(sa.IsSigmaAlgebra());
+}
+
+TEST(SigmaAlgebraTest, InvalidSigmaAlgebra) {
+  using namespace ptm;
+
+  OutcomeSpace omega;
+  omega.AddOutcome("1");
+  omega.AddOutcome("2");
+  omega.AddOutcome("3");
+  size_t n = omega.GetSize();
+
+  Event onlyA({true, false, false});
+  SigmaAlgebra sa1(omega, {onlyA});
+  EXPECT_FALSE(sa1.IsSigmaAlgebra());
+
+  SigmaAlgebra sa2(omega, {Event::Empty(n), onlyA, Event::Full(n)});
+  EXPECT_FALSE(sa2.IsSigmaAlgebra());
+
+  Event onlyB({false, true, false});
+  Event notA({false, true, true});
+  Event notB({true, false, true});
+  SigmaAlgebra sa3(omega, {Event::Empty(n), onlyA, onlyB, notA, notB, Event::Full(n)});
+  EXPECT_FALSE(sa3.IsSigmaAlgebra());
+}
+
+TEST(SigmaAlgebraTest, GenerateFromSingleEvent) {
+  using namespace ptm;
+
+  OutcomeSpace omega;
+  omega.AddOutcome("A");
+  omega.AddOutcome("B");
+  size_t n = omega.GetSize();
+
+  Event eventA({true, false});
+  SigmaAlgebra generated = SigmaAlgebra::Generate(omega, {eventA});
+
+  const auto& events = generated.GetEvents();
+  EXPECT_EQ(events.size(), 4);
+  EXPECT_TRUE(generated.IsSigmaAlgebra());
+
+  bool foundComplement = false;
+  for (const auto& e : events) {
+    if (!e.Contains(0) && e.Contains(1))
+      foundComplement = true;
+  }
+  EXPECT_TRUE(foundComplement);
+}
+
+TEST(SigmaAlgebraTest, GenerateComplex) {
+  using namespace ptm;
+
+  OutcomeSpace omega;
+  omega.AddOutcome("1");
+  omega.AddOutcome("2");
+  omega.AddOutcome("3");
+  omega.AddOutcome("4");
+  size_t n = omega.GetSize();
+
+  Event g1({true, true, false, false});
+  Event g2({false, true, true, false});
+
+  SigmaAlgebra sa = SigmaAlgebra::Generate(omega, {g1, g2});
+
+  EXPECT_TRUE(sa.IsSigmaAlgebra());
+  EXPECT_EQ(sa.GetEvents().size(), 16);
+}
+
+TEST(SigmaAlgebraTest, GenerateFromEmpty) {
+  using namespace ptm;
+
+  OutcomeSpace omega;
+  omega.AddOutcome("1");
+  omega.AddOutcome("2");
+
+  SigmaAlgebra sa = SigmaAlgebra::Generate(omega, {});
+
+  EXPECT_EQ(sa.GetEvents().size(), 2);
+  EXPECT_TRUE(sa.IsSigmaAlgebra());
+}
