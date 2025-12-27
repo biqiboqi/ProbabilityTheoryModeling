@@ -12,7 +12,7 @@ class Distribution;
 
 class LawOfLargeNumbersSimulator {
 public:
-  explicit LawOfLargeNumbersSimulator(std::shared_ptr<Distribution> dist);
+  explicit LawOfLargeNumbersSimulator(std::shared_ptr<Distribution> dist) : dist_(std::move(dist)) { }
 
   // Смоделировать одну траекторию по LLN:
   //
